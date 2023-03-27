@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="ko">
+  <head>
+    <title>Toast UI Grid</title>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" type="text/css" href="/lib/tui/tui-pagination.min.css" />
+    <link rel="stylesheet" type="text/css" href="/lib/tui/tui-grid.min.css" />
+    <script src="/lib/tui/tui-pagination.min.js"></script>
+    <script src="/lib/tui/tui-grid.min.js"></script>
+  </head>
+  <body>
+    <h1>Toast Grid Pagination Test</h1>
+    <div style="margin-bottom: 5px;">
+      <button type="button" onclick="readData()">조회버튼</button>
+      <select onchange="gridInstance.setPerPage(event.target.value)">
+        <option value="5">5개</option>
+        <option value="10">10개</option>
+        <option value="20">20개</option>
+        <option value="50">50개</option>
+        <option value="100">100개</option>
+        <option value="200">200개</option>
+        <option value="300">300개</option>
+        <option value="500">500개</option>
+      </select>
+    </div>
+    <div id="grid"></div>
+    <p>조회버튼 우측의 셀렉트 박스로 페이징 사이즈를 변경(change 핸들러에서 setPerPage() 호출)하면 그리드 하단의 페이지 인덱스가 변화하지 않습니다.</p>
+    <p>하지만 콘솔에 직접 gridInstance.setPerPage(500); gridInstance.setPerPage(1); 이런식으로 입력하면 페이지 인덱스가 변합니다. </p>
+    <script>
+      const gridData = null;
+
+      let gridInstance = window.gridInstance = new tui.Grid({
+        el: document.getElementById("grid"),
+        scrollX: false,
+        scrollY: false,
+        minBodyHeight: 30,
+        rowHeaders: ["rowNum"],
+        data: {
+          api: {
+            readData: { url: "/read-grid.data", method: "GET" },
+          },
+        },
+        pageOptions: {
+          perPage: 10
+        },
+        columns: [
+          {
+            header: "Name",
+            name: "name",
+          },
+          {
+            header: "Artist",
+            name: "artist",
+          },
+          {
+            header: "Type",
+            name: "type",
+          },
+          {
+            header: "Release",
+            name: "release",
+          },
+          {
+            header: "Genre",
+            name: "genre",
+          },
+        ],
+      });
+
+      function readData() {
+        gridInstance.readData(1);
+      }
+      function handlePerPageChange(event) {
+        gridInstance.setPerPage(event.target.value);
+      }
+    </script>
+  </body>
+</html>
