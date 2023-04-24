@@ -14,10 +14,10 @@
     <h1>Toast Grid Pagination Test</h1>
     <div style="margin-bottom: 5px;">
       <button type="button" onclick="readData()">조회버튼</button>
-      <select onchange="gridInstance.setPerPage(event.target.value)">
+      <select onchange="handlePerPageChange(event)">
         <option value="5">5개</option>
         <option value="10">10개</option>
-        <option value="20">20개</option>
+        <option selected value="20">20개</option>
         <option value="50">50개</option>
         <option value="100">100개</option>
         <option value="200">200개</option>
@@ -34,7 +34,7 @@
       let gridInstance = window.gridInstance = new tui.Grid({
         el: document.getElementById("grid"),
         scrollX: false,
-        scrollY: false,
+        scrollY: true,
         minBodyHeight: 30,
         rowHeaders: ["rowNum"],
         data: {
@@ -43,7 +43,7 @@
           },
         },
         pageOptions: {
-          perPage: 10
+          perPage: 20
         },
         columns: [
           {
@@ -74,6 +74,11 @@
       }
       function handlePerPageChange(event) {
         gridInstance.setPerPage(event.target.value);
+        let gridData = gridInstance.getData();
+        let page = gridInstance.getPagination()._options.page;
+        let totalCount = gridInstance.getPagination()._options.totalItems;
+        let pageState = {page: page, totalCount: totalCount, perPage: parseInt(event.target.value)};
+        gridInstance.resetData(gridData, {pageState});
       }
     </script>
   </body>
