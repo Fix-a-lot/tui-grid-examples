@@ -1,4 +1,4 @@
-# tui-grid-bug-report
+# tui-grid-examples
 
 ## How to run
 
