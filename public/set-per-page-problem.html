@@ -36,7 +36,7 @@
         scrollX: false,
         scrollY: false,
         // bodyHeight: 400,
-        minBodyHeight: 30,
+        minBodyHeight: 400,
         rowHeaders: ["rowNum"],
         data: {
           api: {
@@ -44,41 +44,35 @@
           },
         },
         pageOptions: {
-          perPage: 10
+          perPage: 100
         },
         columns: [
           {
             header: "RowIndex",
             name: "rowIndex",
-            width: 40,
             align: 'center'
           },
           {
             header: "Name",
             name: "name",
-            width: 300
           },
           {
             header: "Artist",
             name: "artist",
-            width: 300
           },
           {
             header: "Type",
             name: "type",
-            width: 120,
             align: 'center'
           },
           {
             header: "Release",
             name: "release",
-            width: 100,
             align: 'center'
           },
           {
             header: "Genre",
             name: "genre",
-            width: 200,
             align: 'center'
           },
         ],
