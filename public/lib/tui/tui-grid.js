@@ -1,6 +1,6 @@
 /*!
  * TOAST UI Grid
- * @version 4.21.9 | Fri Mar 17 2023
+ * @version 4.21.6 | Wed Oct 19 2022
  * @author NHN Cloud. FE Development Lab
  * @license MIT
  */
@@ -2014,7 +2014,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.changeRawDataToOriginDataForTree = exports.getOmittedInternalProp = exports.createChangeInfo = exports.getFormattedValue = exports.getRowKeyByIndexWithPageRange = exports.getRowIndexPerPage = exports.isClientPagination = exports.isScrollPagination = exports.getMaxRowKey = exports.isFiltered = exports.isSorted = exports.getCreatedRowInfos = exports.getCreatedRowInfo = exports.getRemovedClassName = exports.getAddedClassName = exports.getLoadingState = exports.getRowHeight = exports.isInitialSortState = exports.isSortable = exports.getUniqColumnData = exports.findRowByRowKey = exports.findIndexByRowKey = exports.getConditionalRows = exports.getRemoveRowInfoList = exports.getCheckedRowInfoList = exports.isEditableCell = exports.getCellAddressByIndex = void 0;
 var tslib_1 = __webpack_require__(1);
 var common_1 = __webpack_require__(0);
-var instance_1 = __webpack_require__(9);
+var instance_1 = __webpack_require__(8);
 var column_1 = __webpack_require__(12);
 var data_1 = __webpack_require__(15);
 var data_2 = __webpack_require__(23);
@@ -2322,7 +2322,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.getEventBus = exports.createEventBus = void 0;
 var tslib_1 = __webpack_require__(1);
 var common_1 = __webpack_require__(0);
-var instance_1 = __webpack_require__(9);
+var instance_1 = __webpack_require__(8);
 var eventBusMap = {};
 function createEventBus(id) {
     var listenersMap = {};
@@ -2363,29 +2363,6 @@ exports.getEventBus = getEventBus;
 
 /***/ }),
 /* 8 */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.FILTER_LEFT_POSITION_ADJUSTMENT = exports.OCCUPIED_HEIGHT_BY_CELL_LAYOUY = exports.DEFAULT_SUB_CONTEXT_MENU_TOP = exports.HORIZONTAL_PADDING_OF_CELL = exports.DISABLED_PRIORITY_COLUMN = exports.DISABLED_PRIORITY_ROW = exports.DISABLED_PRIORITY_CELL = exports.DISABLED_PRIORITY_NONE = exports.DEFAULT_PER_PAGE = exports.RIGHT_MOUSE_BUTTON = exports.TREE_CELL_HORIZONTAL_PADDING = exports.TREE_INDENT_WIDTH = exports.FILTER_DEBOUNCE_TIME = void 0;
-exports.FILTER_DEBOUNCE_TIME = 50;
-exports.TREE_INDENT_WIDTH = 22;
-exports.TREE_CELL_HORIZONTAL_PADDING = 19;
-exports.RIGHT_MOUSE_BUTTON = 2;
-exports.DEFAULT_PER_PAGE = 20;
-exports.DISABLED_PRIORITY_NONE = 'NONE';
-exports.DISABLED_PRIORITY_CELL = 'CELL';
-exports.DISABLED_PRIORITY_ROW = 'ROW';
-exports.DISABLED_PRIORITY_COLUMN = 'COLUMN';
-exports.HORIZONTAL_PADDING_OF_CELL = 10;
-exports.DEFAULT_SUB_CONTEXT_MENU_TOP = -6;
-exports.OCCUPIED_HEIGHT_BY_CELL_LAYOUY = 9;
-exports.FILTER_LEFT_POSITION_ADJUSTMENT = 2;
-
-
-/***/ }),
-/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2433,7 +2410,7 @@ exports.getPaginationManager = getPaginationManager;
 
 
 /***/ }),
-/* 10 */
+/* 9 */
 /***/ (function(module, exports, __webpack_require__) {
 
 "use strict";
@@ -2509,6 +2486,28 @@ var GridEvent = /** @class */ (function () {
     return GridEvent;
 }());
 exports.default = GridEvent;
+
+
+/***/ }),
+/* 10 */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.OCCUPIED_HEIGHT_BY_CELL_LAYOUY = exports.DEFAULT_SUB_CONTEXT_MENU_TOP = exports.HORIZONTAL_PADDING_OF_CELL = exports.DISABLED_PRIORITY_COLUMN = exports.DISABLED_PRIORITY_ROW = exports.DISABLED_PRIORITY_CELL = exports.DISABLED_PRIORITY_NONE = exports.DEFAULT_PER_PAGE = exports.RIGHT_MOUSE_BUTTON = exports.TREE_CELL_HORIZONTAL_PADDING = exports.TREE_INDENT_WIDTH = exports.FILTER_DEBOUNCE_TIME = void 0;
+exports.FILTER_DEBOUNCE_TIME = 50;
+exports.TREE_INDENT_WIDTH = 22;
+exports.TREE_CELL_HORIZONTAL_PADDING = 19;
+exports.RIGHT_MOUSE_BUTTON = 2;
+exports.DEFAULT_PER_PAGE = 20;
+exports.DISABLED_PRIORITY_NONE = 'NONE';
+exports.DISABLED_PRIORITY_CELL = 'CELL';
+exports.DISABLED_PRIORITY_ROW = 'ROW';
+exports.DISABLED_PRIORITY_COLUMN = 'COLUMN';
+exports.HORIZONTAL_PADDING_OF_CELL = 10;
+exports.DEFAULT_SUB_CONTEXT_MENU_TOP = -6;
+exports.OCCUPIED_HEIGHT_BY_CELL_LAYOUY = 9;
 
 
 /***/ }),
@@ -2830,8 +2829,8 @@ var data_1 = __webpack_require__(15);
 var observable_1 = __webpack_require__(5);
 var selection_1 = __webpack_require__(16);
 var eventBus_1 = __webpack_require__(7);
-var gridEvent_1 = tslib_1.__importDefault(__webpack_require__(10));
-var instance_1 = __webpack_require__(9);
+var gridEvent_1 = tslib_1.__importDefault(__webpack_require__(9));
+var instance_1 = __webpack_require__(8);
 var tree_1 = __webpack_require__(31);
 var rowSpan_1 = __webpack_require__(13);
 var focus_1 = __webpack_require__(18);
@@ -2848,7 +2847,7 @@ var lazyObservable_1 = __webpack_require__(28);
 var validation_1 = __webpack_require__(27);
 var column_2 = __webpack_require__(32);
 var renderState_1 = __webpack_require__(50);
-var constant_1 = __webpack_require__(8);
+var constant_1 = __webpack_require__(10);
 function getIndexRangeOfCheckbox(_a, startRowKey, targetRowKey) {
     var data = _a.data, column = _a.column, id = _a.id;
     var filtered = data_2.isFiltered(data);
@@ -2956,14 +2955,14 @@ function setValue(store, rowKey, columnName, value, checkCellState) {
         updateHeightsWithFilteredData(store);
     });
     summary_1.updateSummaryValueByCell(store, columnName, { orgValue: orgValue, value: value });
-    instance_1.getDataManager(id).push('UPDATE', [targetRow]);
+    instance_1.getDataManager(id).push('UPDATE', targetRow);
     if (!common_1.isEmpty(rowSpanMap) && rowSpanMap[columnName] && rowSpan_1.isRowSpanEnabled(sortState, column)) {
         var spanCount = rowSpanMap[columnName].spanCount;
         // update sub rows value
         for (var count = 1; count < spanCount; count += 1) {
             rawData[rowIndex + count][columnName] = value;
             summary_1.updateSummaryValueByCell(store, columnName, { orgValue: orgValue, value: value });
-            instance_1.getDataManager(id).push('UPDATE', [rawData[rowIndex + count]]);
+            instance_1.getDataManager(id).push('UPDATE', rawData[rowIndex + count]);
         }
     }
     column_2.setAutoResizingColumnWidths(store);
@@ -3043,7 +3042,7 @@ function setColumnValues(store, columnName, value, checkCellState) {
                 value: value,
             });
             targetRow[columnName] = value;
-            instance_1.getDataManager(id).push('UPDATE', [targetRow]);
+            instance_1.getDataManager(id).push('UPDATE', targetRow);
         }
     });
     summary_1.updateSummaryValueByColumn(store, columnName, { value: value });
@@ -3248,7 +3247,7 @@ function appendRow(store, row, options) {
         }
         rowSpan_2.updateRowSpan(store);
     }
-    instance_1.getDataManager(id).push('CREATE', [rawRow], inserted);
+    instance_1.getDataManager(id).push('CREATE', rawRow, inserted);
     summary_1.updateSummaryValueByRow(store, rawRow, { type: 'APPEND' });
     postUpdateAfterManipulation(store, at, 'DONE', [rawRow]);
 }
@@ -3279,7 +3278,7 @@ function removeRow(store, rowKey, options) {
     if (rowIndex !== rawData.length) {
         sort_1.updateSortKey(data, removedRow.sortKey + 1, false);
     }
-    instance_1.getDataManager(id).push('DELETE', [removedRow]);
+    instance_1.getDataManager(id).push('DELETE', removedRow);
     summary_1.updateSummaryValueByRow(store, removedRow, { type: 'REMOVE' });
     postUpdateAfterManipulation(store, rowIndex, data_2.getLoadingState(rawData));
 }
@@ -3445,7 +3444,7 @@ function setRow(store, rowIndex, row) {
     if (prevRow && rowSpan_1.isRowSpanEnabled(sortState, column)) {
         rowSpan_2.updateRowSpanWhenAppending(rawData, prevRow, false);
     }
-    instance_1.getDataManager(id).push('UPDATE', [rawRow]);
+    instance_1.getDataManager(id).push('UPDATE', rawRow);
     setTimeout(function () {
         updateHeightsWithFilteredData(store);
     });
@@ -3462,9 +3461,8 @@ function spliceContinuousRowInfos(data, continuousRowInfo) {
     common_1.silentSplice.apply(void 0, tslib_1.__spreadArrays([viewData, startRowIndex, sizeOfContinuousRowInfos], continuousRowInfo.viewRows));
 }
 function setRows(store, rows) {
-    var data = store.data, column = store.column, id = store.id, viewport = store.viewport;
+    var data = store.data, column = store.column, id = store.id;
     var rawData = data.rawData, sortState = data.sortState;
-    var rowRange = viewport.rowRange;
     var sortedIndexedRows = rows
         .map(function (row) {
         var rowIndex = data_2.findIndexByRowKey(data, column, id, row.rowKey);
@@ -3499,37 +3497,25 @@ function setRows(store, rows) {
         }
     });
     spliceContinuousRowInfos(data, continuousRowInfo);
-    createdRowInfos
-        .filter(function (_a) {
+    createdRowInfos.forEach(function (_a, index) {
         var rowIndex = _a.rowIndex;
-        return common_1.isBetween(rowIndex, rowRange[0], rowRange[1]);
-    })
-        .forEach(function (_a) {
-        var rowIndex = _a.rowIndex;
-        return makeObservable(store, rowIndex, false, true);
+        makeObservable(store, rowIndex, index !== createdRowInfos.length - 1, true);
     });
-    if (rowSpan_1.isRowSpanEnabled(sortState, column)) {
-        createdRowInfos
-            .filter(function (_a) {
-            var prevRow = _a.row.prevRow;
-            return !!prevRow;
-        })
-            .forEach(function (_a) {
-            var prevRow = _a.row.prevRow;
-            return rowSpan_2.updateRowSpanWhenAppending(rawData, prevRow, false);
-        });
-    }
-    instance_1.getDataManager(id).push('UPDATE', createdRowInfos.map(function (_a) {
-        var row = _a.row;
-        return row.rawRow;
-    }));
+    createdRowInfos.forEach(function (_a) {
+        var row = _a.row, orgRow = _a.orgRow;
+        var rawRow = row.rawRow, prevRow = row.prevRow;
+        if (prevRow && rowSpan_1.isRowSpanEnabled(sortState, column)) {
+            rowSpan_2.updateRowSpanWhenAppending(rawData, prevRow, false);
+        }
+        instance_1.getDataManager(id).push('UPDATE', rawRow);
+        summary_1.updateSummaryValueByRow(store, rawRow, { type: 'SET', orgRow: orgRow });
+    });
     sort_1.sortByCurrentState(store);
     postUpdateAfterManipulation(store, createdRowInfos[0].rowIndex, 'DONE');
     setTimeout(function () {
         updateHeightsWithFilteredData(store);
     });
     rowSpan_2.updateRowSpan(store);
-    summary_1.updateAllSummaryValues(store);
 }
 exports.setRows = setRows;
 function moveRow(store, rowKey, targetIndex) {
@@ -3552,7 +3538,7 @@ function moveRow(store, rowKey, targetIndex) {
     renderState_1.fitRowHeightWhenMovingRow(store, currentIndex, targetIndex);
     sort_1.resetSortKey(data, minIndex);
     updateRowNumber(store, minIndex);
-    instance_1.getDataManager(id).push('UPDATE', [rawRow], true);
+    instance_1.getDataManager(id).push('UPDATE', rawRow, true);
 }
 exports.moveRow = moveRow;
 function scrollToNext(store) {
@@ -3593,7 +3579,7 @@ function appendRows(store, inputData) {
     sort_1.resetSortKey(data, startIndex);
     sort_1.sortByCurrentState(store);
     updateHeights(store);
-    rawData.forEach(function (rawRow) { return instance_1.getDataManager(id).push('CREATE', [rawRow]); });
+    rawData.forEach(function (rawRow) { return instance_1.getDataManager(id).push('CREATE', rawRow); });
     postUpdateAfterManipulation(store, startIndex, 'DONE', rawData);
     rowSpan_2.updateRowSpan(store);
 }
@@ -3614,9 +3600,9 @@ function removeRows(store, targetRows) {
                 rowSpan_2.updateRowSpanWhenRemoving(rawData, removedRow, nextRow, false);
             }
         }
-        instance_1.getDataManager(id).push('DELETE', [removedRow]);
+        instance_1.getDataManager(id).push('DELETE', removedRow);
+        sort_1.updateSortKey(data, removedRow.sortKey + 1, false);
     });
-    sort_1.resetSortKey(data, 0);
     observable_1.notify(data, 'rawData', 'filteredRawData', 'viewData', 'filteredViewData');
     updateHeights(store);
     if (common_1.someProp('rowKey', focus.rowKey, rows)) {
@@ -3653,7 +3639,7 @@ var tree_1 = __webpack_require__(20);
 var validation_1 = __webpack_require__(27);
 var data_1 = __webpack_require__(6);
 var data_2 = __webpack_require__(23);
-var constant_1 = __webpack_require__(8);
+var constant_1 = __webpack_require__(10);
 var dataCreationKey = '';
 function generateDataCreationKey() {
     dataCreationKey = "@dataKey" + Date.now();
@@ -4074,7 +4060,7 @@ var tslib_1 = __webpack_require__(1);
 var common_1 = __webpack_require__(0);
 var eventBus_1 = __webpack_require__(7);
 var selection_1 = __webpack_require__(22);
-var gridEvent_1 = tslib_1.__importDefault(__webpack_require__(10));
+var gridEvent_1 = tslib_1.__importDefault(__webpack_require__(9));
 var rowSpan_1 = __webpack_require__(13);
 function changeSelectionRange(selection, inputRange, id) {
     if (!selection_1.isSameInputRange(selection.inputRange, inputRange)) {
@@ -4276,7 +4262,7 @@ exports.isArrowKey = isArrowKey;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.setFocusInfo = exports.saveAndFinishEditing = exports.initFocus = exports.changeFocus = exports.finishEditing = exports.startEditing = void 0;
 var tslib_1 = __webpack_require__(1);
-var gridEvent_1 = tslib_1.__importDefault(__webpack_require__(10));
+var gridEvent_1 = tslib_1.__importDefault(__webpack_require__(9));
 var eventBus_1 = __webpack_require__(7);
 var data_1 = __webpack_require__(6);
 var focus_1 = __webpack_require__(45);
@@ -4755,7 +4741,7 @@ var data_1 = __webpack_require__(15);
 var tree_1 = __webpack_require__(21);
 var observable_1 = __webpack_require__(5);
 var common_1 = __webpack_require__(0);
-var constant_1 = __webpack_require__(8);
+var constant_1 = __webpack_require__(10);
 var treeRowKeyMap = {};
 function clearTreeRowKeyMap(id) {
     delete treeRowKeyMap[id];
@@ -5207,7 +5193,7 @@ var data_1 = __webpack_require__(15);
 var common_1 = __webpack_require__(0);
 var observable_1 = __webpack_require__(5);
 var rowSpan_1 = __webpack_require__(13);
-var constant_1 = __webpack_require__(8);
+var constant_1 = __webpack_require__(10);
 function updateRowSpanWhenAppending(data, prevRow, extendPrevRowSpan) {
     var prevRowSpanMap = prevRow.rowSpanMap;
     if (common_1.isEmpty(prevRowSpanMap)) {
@@ -5555,7 +5541,7 @@ exports.getValidationCode = exports.forceValidateUniquenessOfColumn = exports.fo
 var tslib_1 = __webpack_require__(1);
 var common_1 = __webpack_require__(0);
 var observable_1 = __webpack_require__(5);
-var instance_1 = __webpack_require__(9);
+var instance_1 = __webpack_require__(8);
 var data_1 = __webpack_require__(6);
 var instanceValidationMap = {};
 var isValidatingUniquenessMap = {};
@@ -6164,18 +6150,18 @@ var tslib_1 = __webpack_require__(1);
 var data_1 = __webpack_require__(15);
 var data_2 = __webpack_require__(6);
 var observable_1 = __webpack_require__(5);
-var instance_1 = __webpack_require__(9);
+var instance_1 = __webpack_require__(8);
 var data_3 = __webpack_require__(14);
 var tree_1 = __webpack_require__(21);
 var eventBus_1 = __webpack_require__(7);
-var gridEvent_1 = tslib_1.__importDefault(__webpack_require__(10));
+var gridEvent_1 = tslib_1.__importDefault(__webpack_require__(9));
 var tree_2 = __webpack_require__(20);
 var common_1 = __webpack_require__(0);
 var dom_1 = __webpack_require__(2);
 var lazyObservable_1 = __webpack_require__(28);
 var column_1 = __webpack_require__(12);
 var data_4 = __webpack_require__(23);
-var constant_1 = __webpack_require__(8);
+var constant_1 = __webpack_require__(10);
 var column_2 = __webpack_require__(32);
 function changeExpandedAttr(row, expanded) {
     var tree = row._attributes.tree;
@@ -6416,7 +6402,7 @@ function appendTreeRow(store, row, options) {
     common_1.silentSplice.apply(void 0, tslib_1.__spreadArrays([viewData, startIdx, 0], viewRows));
     var rowHeights = rawRows.map(function (rawRow) {
         changeTreeRowsCheckedState(store, rawRow.rowKey, rawRow._attributes.checked);
-        instance_1.getDataManager(id).push(modificationType, [rawRow], true);
+        instance_1.getDataManager(id).push(modificationType, rawRow, true);
         return data_2.getRowHeight(rawRow, dimension.rowHeight);
     });
     observable_1.notify(data, 'rawData', 'filteredRawData', 'viewData', 'filteredViewData');
@@ -6447,7 +6433,7 @@ function removeTreeRow(store, rowKey, movingRow) {
     viewData.splice(startIdx, deleteCount);
     heights.splice(startIdx, deleteCount);
     for (var i = removedRows.length - 1; i >= 0; i -= 1) {
-        instance_1.getDataManager(id).push(modificationType, [removedRows[i]]);
+        instance_1.getDataManager(id).push(modificationType, removedRows[i]);
     }
     postUpdateAfterManipulation(store, startIdx, rawData);
 }
@@ -6479,8 +6465,8 @@ function moveTreeRow(store, rowKey, targetIndex, options) {
     if (!moveToChild) {
         removeTreeRow(store, rowKey, true);
         var originRow = observable_1.getOriginObject(row);
-        instance_1.getDataManager(id).push('UPDATE', [targetRow], true);
-        instance_1.getDataManager(id).push('UPDATE', [row], true);
+        instance_1.getDataManager(id).push('UPDATE', targetRow, true);
+        instance_1.getDataManager(id).push('UPDATE', row, true);
         if (options.appended) {
             appendTreeRow(store, originRow, { parentRowKey: targetRow.rowKey, movingRow: true });
         }
@@ -6517,7 +6503,7 @@ exports.moveColumn = exports.setColumnWidthsByText = exports.setAutoResizingColu
 var tslib_1 = __webpack_require__(1);
 var column_1 = __webpack_require__(33);
 var data_1 = __webpack_require__(15);
-var gridEvent_1 = tslib_1.__importDefault(__webpack_require__(10));
+var gridEvent_1 = tslib_1.__importDefault(__webpack_require__(9));
 var eventBus_1 = __webpack_require__(7);
 var focus_1 = __webpack_require__(18);
 var observable_1 = __webpack_require__(5);
@@ -6530,7 +6516,7 @@ var dom_1 = __webpack_require__(2);
 var data_2 = __webpack_require__(23);
 var tree_1 = __webpack_require__(20);
 var tree_2 = __webpack_require__(21);
-var constant_1 = __webpack_require__(8);
+var constant_1 = __webpack_require__(10);
 var rowSpan_1 = __webpack_require__(24);
 var column_2 = __webpack_require__(11);
 var column_3 = __webpack_require__(12);
@@ -6768,7 +6754,7 @@ var default_1 = __webpack_require__(68);
 var manager_1 = __webpack_require__(69);
 var rowHeaderInput_1 = __webpack_require__(76);
 var rowHeaderDraggable_1 = __webpack_require__(77);
-var constant_1 = __webpack_require__(8);
+var constant_1 = __webpack_require__(10);
 var DEF_ROW_HEADER_INPUT = '<input type="checkbox" name="_checked" />';
 var ROW_HEADER = 40;
 var COLUMN = 50;
@@ -7354,7 +7340,6 @@ function clearActiveFilterState(store) {
     var activeFilterState = filterLayerState.activeFilterState;
     activeFilterState.state = [];
     unfilter(store, activeFilterState.columnName);
-    observable_1.notify(filterLayerState, 'activeFilterState');
 }
 exports.clearActiveFilterState = clearActiveFilterState;
 function setActiveFilterState(store, state, filterIndex) {
@@ -9590,7 +9575,7 @@ exports.isEditingCell = isEditingCell;
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.createSortEvent = exports.isCancelSort = void 0;
 var tslib_1 = __webpack_require__(1);
-var gridEvent_1 = tslib_1.__importDefault(__webpack_require__(10));
+var gridEvent_1 = tslib_1.__importDefault(__webpack_require__(9));
 var common_1 = __webpack_require__(0);
 function isCancelSort(_a, columnName, ascending, cancelable) {
     var data = _a.data, column = _a.column;
@@ -9829,7 +9814,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.createFilterEvent = exports.getFilterState = void 0;
 var tslib_1 = __webpack_require__(1);
 var common_1 = __webpack_require__(0);
-var gridEvent_1 = tslib_1.__importDefault(__webpack_require__(10));
+var gridEvent_1 = tslib_1.__importDefault(__webpack_require__(9));
 function getFilterState(store) {
     var filters = store.data.filters;
     if (filters) {
@@ -10074,14 +10059,14 @@ var colGroup_1 = __webpack_require__(39);
 var dom_1 = __webpack_require__(2);
 var hoc_1 = __webpack_require__(4);
 var columnResizer_1 = __webpack_require__(92);
-var instance_1 = __webpack_require__(9);
+var instance_1 = __webpack_require__(8);
 var column_1 = __webpack_require__(12);
 var complexHeader_1 = __webpack_require__(93);
 var columnHeader_1 = __webpack_require__(53);
-var constant_1 = __webpack_require__(8);
+var constant_1 = __webpack_require__(10);
 var draggable_1 = __webpack_require__(54);
 var common_1 = __webpack_require__(0);
-var gridEvent_1 = tslib_1.__importDefault(__webpack_require__(10));
+var gridEvent_1 = tslib_1.__importDefault(__webpack_require__(9));
 var eventBus_1 = __webpack_require__(7);
 var DRAGGING_CLASS = 'dragging';
 var HeaderAreaComp = /** @class */ (function (_super) {
@@ -10560,9 +10545,9 @@ var focusLayer_1 = __webpack_require__(104);
 var selectionLayer_1 = __webpack_require__(105);
 var common_1 = __webpack_require__(0);
 var editingLayer_1 = __webpack_require__(106);
-var gridEvent_1 = tslib_1.__importDefault(__webpack_require__(10));
+var gridEvent_1 = tslib_1.__importDefault(__webpack_require__(9));
 var eventBus_1 = __webpack_require__(7);
-var constant_1 = __webpack_require__(8);
+var constant_1 = __webpack_require__(10);
 var focus_1 = __webpack_require__(45);
 // only updates when these props are changed
 // for preventing unnecessary rendering when scroll changes
@@ -10598,12 +10583,6 @@ var BodyAreaComp = /** @class */ (function (_super) {
         _this.scrollToNextDebounced = common_1.debounce(function () {
             _this.props.dispatch('scrollToNext');
         }, 200);
-        _this.handleWheel = function (ev) {
-            var currentTarget = ev.currentTarget;
-            ev.preventDefault();
-            currentTarget.scrollTop += ev.deltaY;
-            currentTarget.scrollLeft += ev.deltaX;
-        };
         _this.handleScroll = function (ev) {
             var _a = ev.target, scrollLeft = _a.scrollLeft, scrollTop = _a.scrollTop, scrollHeight = _a.scrollHeight, clientHeight = _a.clientHeight;
             var _b = _this.props, dispatch = _b.dispatch, eventBus = _b.eventBus, side = _b.side;
@@ -10869,7 +10848,7 @@ var BodyAreaComp = /** @class */ (function (_super) {
             width: totalColumnWidth + (side === 'R' ? 0 : cellBorderWidth),
             height: totalRowHeight ? totalRowHeight + cellBorderWidth : '100%',
         };
-        return (preact_1.h("div", { class: dom_1.cls('body-area'), style: areaStyle, onScroll: this.handleScroll, onMouseDown: this.handleMouseDown, onWheel: this.handleWheel, ref: function (el) {
+        return (preact_1.h("div", { class: dom_1.cls('body-area'), style: areaStyle, onScroll: this.handleScroll, onMouseDown: this.handleMouseDown, ref: function (el) {
                 _this.el = el;
             } },
             preact_1.h("div", { class: dom_1.cls('body-container'), style: containerStyle },
@@ -11045,7 +11024,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.execCopy = void 0;
 var dom_1 = __webpack_require__(2);
 var clipboard_1 = __webpack_require__(41);
-var instance_1 = __webpack_require__(9);
+var instance_1 = __webpack_require__(8);
 function execCopy(store, ranges) {
     var el = instance_1.getInstance(store.id).el;
     var targetText = clipboard_1.getText(store, ranges);
@@ -11233,7 +11212,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.gridAjax = void 0;
 var tslib_1 = __webpack_require__(1);
 var serializer_1 = __webpack_require__(137);
-var gridEvent_1 = tslib_1.__importDefault(__webpack_require__(10));
+var gridEvent_1 = tslib_1.__importDefault(__webpack_require__(9));
 var common_1 = __webpack_require__(0);
 var ENCODED_SPACE_REGEXP = /%20/g;
 var QS_DELIM_REGEXP = /\?/;
@@ -11419,48 +11398,21 @@ function createManager() {
         UPDATE: [],
         DELETE: [],
     };
-    var splice = function (type, rowKeys, rows) {
-        var sortedContinuousIndexedRows = rowKeys
-            .map(function (rowKey, i) { return ({
-            rowIndex: common_1.findIndex(function (createdRow) { return createdRow.rowKey === rowKey; }, dataMap[type]),
-            row: rows === null || rows === void 0 ? void 0 : rows[i],
-        }); })
-            .sort(function (prev, current) { return prev.rowIndex - current.rowIndex; })
-            .reduce(function (acc, indexedRow) {
-            var rowIndex = indexedRow.rowIndex;
-            if (rowIndex === -1) {
-                return acc;
-            }
-            var lastContinuousRowIndices = !acc ? acc : common_1.last(acc);
-            var lastRowIndex = !lastContinuousRowIndices ? -1 : common_1.last(lastContinuousRowIndices);
-            if (common_1.isUndefined(lastContinuousRowIndices) || rowIndex - lastRowIndex !== 1) {
-                acc.push([indexedRow]);
+    var splice = function (type, rowKey, row) {
+        var index = common_1.findIndex(function (createdRow) { return createdRow.rowKey === rowKey; }, dataMap[type]);
+        if (index !== -1) {
+            if (common_1.isUndefined(row)) {
+                dataMap[type].splice(index, 1);
             }
             else {
-                lastContinuousRowIndices.push(indexedRow);
+                dataMap[type].splice(index, 1, row);
             }
-            return acc;
-        }, []);
-        sortedContinuousIndexedRows.forEach(function (indexedRows) {
-            var _a;
-            var startIndex = indexedRows[0].rowIndex;
-            var lastIndex = common_1.last(indexedRows).rowIndex;
-            if (common_1.isUndefined(rows)) {
-                dataMap[type].splice(startIndex, lastIndex - startIndex + 1);
-            }
-            else {
-                (_a = dataMap[type]).splice.apply(_a, tslib_1.__spreadArrays([startIndex,
-                    lastIndex - startIndex + 1], indexedRows.reduce(function (acc, _a) {
-                    var row = _a.row;
-                    return (!row ? acc : tslib_1.__spreadArrays(acc, [row]));
-                }, [])));
-            }
-        });
+        }
     };
     var spliceAll = function (rowKey, row) {
-        splice('CREATE', [rowKey], !row ? row : [row]);
-        splice('UPDATE', [rowKey], !row ? row : [row]);
-        splice('DELETE', [rowKey], !row ? row : [row]);
+        splice('CREATE', rowKey, row);
+        splice('UPDATE', rowKey, row);
+        splice('DELETE', rowKey, row);
     };
     return {
         // only for restore
@@ -11486,36 +11438,26 @@ function createManager() {
         isModifiedByType: function (type) {
             return !!dataMap[type].length;
         },
-        push: function (type, rows, mixed) {
-            var _a;
+        push: function (type, row, mixed) {
             if (mixed === void 0) { mixed = false; }
-            var rowKeys = rows.map(function (row) { return row.rowKey; });
+            var rowKey = row.rowKey;
             mixedOrder = mixedOrder || mixed;
             if (type === 'UPDATE' || type === 'DELETE') {
-                splice('UPDATE', rowKeys);
-                var registeredRows = rows.filter(function (_a) {
-                    var rowKey = _a.rowKey;
-                    return common_1.someProp('rowKey', rowKey, dataMap.CREATE);
-                });
+                splice('UPDATE', rowKey);
                 // if the row was already registered in createdRows,
                 // would update it in createdRows and not add it to updatedRows or deletedRows
-                if (!common_1.isEmpty(registeredRows)) {
-                    var registeredRowKeys = registeredRows.map(function (row) { return row.rowKey; });
+                if (common_1.someProp('rowKey', rowKey, dataMap.CREATE)) {
                     if (type === 'UPDATE') {
-                        splice('CREATE', registeredRowKeys, registeredRows);
+                        splice('CREATE', rowKey, row);
                     }
                     else {
-                        splice('CREATE', registeredRowKeys);
+                        splice('CREATE', rowKey);
                     }
                     return;
                 }
             }
-            var notModifiedRows = rows.filter(function (_a) {
-                var rowKey = _a.rowKey;
-                return !common_1.someProp('rowKey', rowKey, dataMap[type]);
-            });
-            if (!common_1.isEmpty(notModifiedRows)) {
-                (_a = dataMap[type]).push.apply(_a, notModifiedRows);
+            if (!common_1.someProp('rowKey', rowKey, dataMap[type])) {
+                dataMap[type].push(row);
             }
         },
         clearSpecificRows: function (rowsMap) {
@@ -11603,7 +11545,7 @@ var create_1 = __webpack_require__(65);
 var root_1 = __webpack_require__(89);
 var create_2 = __webpack_require__(123);
 var manager_1 = tslib_1.__importDefault(__webpack_require__(130));
-var instance_1 = __webpack_require__(9);
+var instance_1 = __webpack_require__(8);
 var i18n_1 = tslib_1.__importDefault(__webpack_require__(19));
 var validation_1 = __webpack_require__(134);
 var dom_1 = __webpack_require__(2);
@@ -20486,7 +20428,7 @@ exports.Root = void 0;
 var tslib_1 = __webpack_require__(1);
 var preact_1 = __webpack_require__(3);
 var container_1 = __webpack_require__(90);
-var gridEvent_1 = tslib_1.__importDefault(__webpack_require__(10));
+var gridEvent_1 = tslib_1.__importDefault(__webpack_require__(9));
 var eventBus_1 = __webpack_require__(7);
 var Root = /** @class */ (function (_super) {
     tslib_1.__extends(Root, _super);
@@ -20550,7 +20492,7 @@ var pagination_1 = __webpack_require__(120);
 var dom_1 = __webpack_require__(2);
 var hoc_1 = __webpack_require__(4);
 var eventBus_1 = __webpack_require__(7);
-var gridEvent_1 = tslib_1.__importDefault(__webpack_require__(10));
+var gridEvent_1 = tslib_1.__importDefault(__webpack_require__(9));
 var browser_1 = __webpack_require__(40);
 var common_1 = __webpack_require__(0);
 var keyboard_1 = __webpack_require__(17);
@@ -21225,7 +21167,7 @@ var tslib_1 = __webpack_require__(1);
 var preact_1 = __webpack_require__(3);
 var dom_1 = __webpack_require__(2);
 var hoc_1 = __webpack_require__(4);
-var instance_1 = __webpack_require__(9);
+var instance_1 = __webpack_require__(8);
 var common_1 = __webpack_require__(0);
 var SortingButtonComp = /** @class */ (function (_super) {
     tslib_1.__extends(SortingButtonComp, _super);
@@ -21422,7 +21364,7 @@ var hoc_1 = __webpack_require__(4);
 var dom_1 = __webpack_require__(2);
 var common_1 = __webpack_require__(0);
 var rowSpanCell_1 = __webpack_require__(100);
-var constant_1 = __webpack_require__(8);
+var constant_1 = __webpack_require__(10);
 var ROW_HEIGHT_DEBOUNCE_TIME = 10;
 var BodyRowComp = /** @class */ (function (_super) {
     tslib_1.__extends(BodyRowComp, _super);
@@ -21528,7 +21470,7 @@ var preact_1 = __webpack_require__(3);
 var treeCellContents_1 = __webpack_require__(102);
 var dom_1 = __webpack_require__(2);
 var hoc_1 = __webpack_require__(4);
-var instance_1 = __webpack_require__(9);
+var instance_1 = __webpack_require__(8);
 var column_1 = __webpack_require__(11);
 var common_1 = __webpack_require__(0);
 var BodyCellComp = /** @class */ (function (_super) {
@@ -21664,7 +21606,7 @@ var tslib_1 = __webpack_require__(1);
 var preact_1 = __webpack_require__(3);
 var dom_1 = __webpack_require__(2);
 var hoc_1 = __webpack_require__(4);
-var constant_1 = __webpack_require__(8);
+var constant_1 = __webpack_require__(10);
 var TreeCellContentsComp = /** @class */ (function (_super) {
     tslib_1.__extends(TreeCellContentsComp, _super);
     function TreeCellContentsComp() {
@@ -21867,9 +21809,9 @@ var hoc_1 = __webpack_require__(4);
 var dom_1 = __webpack_require__(2);
 var keyboard_1 = __webpack_require__(17);
 var common_1 = __webpack_require__(0);
-var instance_1 = __webpack_require__(9);
+var instance_1 = __webpack_require__(8);
 var editor_1 = __webpack_require__(34);
-var constant_1 = __webpack_require__(8);
+var constant_1 = __webpack_require__(10);
 var EditingLayerComp = /** @class */ (function (_super) {
     tslib_1.__extends(EditingLayerComp, _super);
     function EditingLayerComp() {
@@ -22369,7 +22311,6 @@ var filterOperator_1 = __webpack_require__(115);
 var selectFilter_1 = __webpack_require__(116);
 var common_1 = __webpack_require__(0);
 var i18n_1 = tslib_1.__importDefault(__webpack_require__(19));
-var constant_1 = __webpack_require__(8);
 var FilterLayerInnerComp = /** @class */ (function (_super) {
     tslib_1.__extends(FilterLayerInnerComp, _super);
     function FilterLayerInnerComp() {
@@ -22395,10 +22336,10 @@ var FilterLayerInnerComp = /** @class */ (function (_super) {
     FilterLayerInnerComp.prototype.componentDidMount = function () {
         var left = this.el.getBoundingClientRect().left;
         var clientWidth = this.el.clientWidth;
-        var leftPosition = this.props.leftPosition;
-        if (leftPosition < left + clientWidth) {
+        var innerWidth = window.innerWidth;
+        if (innerWidth < left + clientWidth) {
             var orgLeft = this.state.left;
-            this.setState({ left: orgLeft - (left + clientWidth - leftPosition) });
+            this.setState({ left: orgLeft - (left + clientWidth - innerWidth) });
         }
     };
     FilterLayerInnerComp.prototype.componentDidUpdate = function (prevProp) {
@@ -22406,12 +22347,12 @@ var FilterLayerInnerComp = /** @class */ (function (_super) {
         if (currentColName !== prevProp.columnAddress.name) {
             var left = this.el.getBoundingClientRect().left;
             var clientWidth = this.el.clientWidth;
-            var leftPosition = this.props.leftPosition;
+            var innerWidth = window.innerWidth;
             var diff = currentLeft - this.state.left;
             var resultLeft = currentLeft;
-            // Positioning the filter layer inside the grid when it is out of the grid
-            if (leftPosition < left + diff + clientWidth) {
-                resultLeft = currentLeft - (left + diff + clientWidth - leftPosition);
+            // Positioning the filter layer inside the viewport when it is out of the viewport
+            if (innerWidth < left + diff + clientWidth) {
+                resultLeft = currentLeft - (left + diff + clientWidth - innerWidth);
             }
             this.setState({ left: resultLeft });
         }
@@ -22445,7 +22386,7 @@ var FilterLayerInnerComp = /** @class */ (function (_super) {
 exports.FilterLayerInnerComp = FilterLayerInnerComp;
 exports.FilterLayerInner = hoc_1.connect(function (store, _a) {
     var columnAddress = _a.columnAddress, filterState = _a.filterState;
-    var data = store.data, column = store.column, dimension = store.dimension;
+    var data = store.data, column = store.column;
     var filters = data.filters;
     var allColumnMap = column.allColumnMap;
     var currentColumnActive = !!filters && common_1.some(function (item) { return item.columnName === columnAddress.name; }, filters);
@@ -22453,14 +22394,12 @@ exports.FilterLayerInner = hoc_1.connect(function (store, _a) {
         filterState.operator &&
         filterState.state[0] &&
         filterState.state[0].value.length);
-    var leftPosition = dimension.width + dimension.offsetLeft - constant_1.FILTER_LEFT_POSITION_ADJUSTMENT;
     return {
         columnInfo: allColumnMap[columnAddress.name],
         columnAddress: columnAddress,
         filters: filters,
         renderSecondFilter: renderSecondFilter,
         currentColumnActive: currentColumnActive,
-        leftPosition: leftPosition,
     };
 })(FilterLayerInnerComp);
 
@@ -22480,7 +22419,7 @@ var dom_1 = __webpack_require__(2);
 var filter_1 = __webpack_require__(30);
 var common_1 = __webpack_require__(0);
 var keyboard_1 = __webpack_require__(17);
-var constant_1 = __webpack_require__(8);
+var constant_1 = __webpack_require__(10);
 var TextFilterComp = /** @class */ (function (_super) {
     tslib_1.__extends(TextFilterComp, _super);
     function TextFilterComp() {
@@ -22562,12 +22501,12 @@ var tslib_1 = __webpack_require__(1);
 var preact_1 = __webpack_require__(3);
 var tui_date_picker_1 = tslib_1.__importDefault(__webpack_require__(44));
 var hoc_1 = __webpack_require__(4);
-var instance_1 = __webpack_require__(9);
+var instance_1 = __webpack_require__(8);
 var dom_1 = __webpack_require__(2);
 var filter_1 = __webpack_require__(30);
 var common_1 = __webpack_require__(0);
 var keyboard_1 = __webpack_require__(17);
-var constant_1 = __webpack_require__(8);
+var constant_1 = __webpack_require__(10);
 var DatePickerFilterComp = /** @class */ (function (_super) {
     tslib_1.__extends(DatePickerFilterComp, _super);
     function DatePickerFilterComp() {
@@ -22736,11 +22675,11 @@ exports.SelectFilter = void 0;
 var tslib_1 = __webpack_require__(1);
 var preact_1 = __webpack_require__(3);
 var hoc_1 = __webpack_require__(4);
-var instance_1 = __webpack_require__(9);
+var instance_1 = __webpack_require__(8);
 var dom_1 = __webpack_require__(2);
 var common_1 = __webpack_require__(0);
 var data_1 = __webpack_require__(6);
-var constant_1 = __webpack_require__(8);
+var constant_1 = __webpack_require__(10);
 var i18n_1 = tslib_1.__importDefault(__webpack_require__(19));
 var SelectFilterComp = /** @class */ (function (_super) {
     tslib_1.__extends(SelectFilterComp, _super);
@@ -22838,7 +22777,7 @@ var hoc_1 = __webpack_require__(4);
 var common_1 = __webpack_require__(0);
 var contextMenu_1 = __webpack_require__(57);
 var dom_1 = __webpack_require__(2);
-var constant_1 = __webpack_require__(8);
+var constant_1 = __webpack_require__(10);
 var ContextMenuItemComp = /** @class */ (function (_super) {
     tslib_1.__extends(ContextMenuItemComp, _super);
     function ContextMenuItemComp() {
@@ -23000,7 +22939,7 @@ var keyboard_1 = __webpack_require__(17);
 var browser_1 = __webpack_require__(40);
 var clipboard_1 = __webpack_require__(41);
 var common_1 = __webpack_require__(0);
-var gridEvent_1 = tslib_1.__importDefault(__webpack_require__(10));
+var gridEvent_1 = tslib_1.__importDefault(__webpack_require__(9));
 var eventBus_1 = __webpack_require__(7);
 var dompurify_1 = __webpack_require__(43);
 var KEYDOWN_LOCK_TIME = 10;
@@ -23227,9 +23166,9 @@ var tui_pagination_1 = tslib_1.__importDefault(__webpack_require__(121));
 var hoc_1 = __webpack_require__(4);
 var dom_1 = __webpack_require__(2);
 var common_1 = __webpack_require__(0);
-var instance_1 = __webpack_require__(9);
+var instance_1 = __webpack_require__(8);
 var eventBus_1 = __webpack_require__(7);
-var gridEvent_1 = tslib_1.__importDefault(__webpack_require__(10));
+var gridEvent_1 = tslib_1.__importDefault(__webpack_require__(9));
 var PaginationComp = /** @class */ (function (_super) {
     tslib_1.__extends(PaginationComp, _super);
     function PaginationComp() {
@@ -23408,9 +23347,9 @@ var focus_1 = __webpack_require__(18);
 var selection_1 = __webpack_require__(16);
 var column_1 = __webpack_require__(11);
 var rowSpan_1 = __webpack_require__(13);
-var instance_1 = __webpack_require__(9);
+var instance_1 = __webpack_require__(8);
 var eventBus_1 = __webpack_require__(7);
-var gridEvent_1 = tslib_1.__importDefault(__webpack_require__(10));
+var gridEvent_1 = tslib_1.__importDefault(__webpack_require__(9));
 var data_1 = __webpack_require__(6);
 var validation_1 = __webpack_require__(27);
 var clipboard_1 = __webpack_require__(41);
@@ -23605,7 +23544,7 @@ function updateDataByKeyMap(store, origin, changeInfo) {
         var targetRowIndex = changeValue();
         if (index !== targetRowIndex) {
             index = targetRowIndex;
-            manager.push('UPDATE', [filteredRawData[index]]);
+            manager.push('UPDATE', filteredRawData[index]);
         }
     });
     summary_1.updateAllSummaryValues(store);
@@ -24108,7 +24047,7 @@ exports.getTargetData = exports.getHeaderDataFromComplexColumn = exports.removeU
 var tslib_1 = __webpack_require__(1);
 var column_1 = __webpack_require__(11);
 var common_1 = __webpack_require__(0);
-var gridEvent_1 = tslib_1.__importDefault(__webpack_require__(10));
+var gridEvent_1 = tslib_1.__importDefault(__webpack_require__(9));
 var column_2 = __webpack_require__(12);
 var data_1 = __webpack_require__(23);
 function getColumnInfoDictionary(store, columnNames) {
@@ -25104,7 +25043,7 @@ var tslib_1 = __webpack_require__(1);
 var common_1 = __webpack_require__(0);
 var gridAjax_1 = __webpack_require__(60);
 var eventBus_1 = __webpack_require__(7);
-var instance_1 = __webpack_require__(9);
+var instance_1 = __webpack_require__(8);
 var modifiedDataManager_1 = __webpack_require__(61);
 var data_1 = __webpack_require__(6);
 var confirm_1 = __webpack_require__(138);

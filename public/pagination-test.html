@@ -9,19 +9,24 @@
     <link rel="stylesheet" type="text/css" href="/lib/tui/tui-grid.css" />
     <script src="/lib/tui/tui-pagination.js"></script>
     <script src="/lib/tui/tui-grid.js"></script>
+    <style>
+      /* .tui-grid-content-area {height:200px !important; overflow:auto;} */
+      /* .tui-grid-body-area {height:200px !important} */
+    </style>
   </head>
   <body>
     <h1>Pagination Test</h1>
     <div id="grid"></div>
+    <p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p><p>야</p>
     <script>
       const gridData = null;
 
       let gridInstance = window.gridInstance = new tui.Grid({
         el: document.getElementById("grid"),
         scrollX: false,
-        scrollY: false,
-        // bodyHeight: 400,
-        minBodyHeight: 1600,
+        scrollY: true,
+        bodyHeight: 600,
+        // minBodyHeight: 600,
         rowHeaders: ["rowNum"],
         useClientSort: false,
         data: {
@@ -30,7 +35,7 @@
           },
         },
         pageOptions: {
-          perPage: 40
+          perPage: 50
         },
         columns: [
           {
@@ -68,8 +73,6 @@
       function readData() {
         gridInstance.readData(1);
       }
-
-      gridInstance.on()
     </script>
   </body>
 </html>
