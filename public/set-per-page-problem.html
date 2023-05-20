@@ -16,7 +16,7 @@
       <button type="button" onclick="readData()">조회버튼</button>
       <select onchange="handlePerPageChange(event)">
         <option value="5">5개</option>
-        <option value="10">10개</option>
+        <option value="10" selected>10개</option>
         <option value="20">20개</option>
         <option value="50">50개</option>
         <option value="100">100개</option>
@@ -28,15 +28,16 @@
     <div id="grid"></div>
     <p>조회버튼 우측의 셀렉트 박스로 페이징 사이즈를 변경(change 핸들러에서 setPerPage() 호출)하면 그리드 하단의 페이지 인덱스가 변화하지 않습니다.</p>
     <p>하지만 콘솔에 직접 gridInstance.setPerPage(500); gridInstance.setPerPage(1); 이런식으로 입력하면 페이지 인덱스가 변합니다. </p>
+    <p><b>* setPerPage()에 넘기는 파라미터를 number로 변환하면 해결됨</b></p>
     <script>
       const gridData = null;
 
       let gridInstance = window.gridInstance = new tui.Grid({
         el: document.getElementById("grid"),
         scrollX: false,
-        scrollY: false,
-        // bodyHeight: 400,
-        minBodyHeight: 400,
+        scrollY: true,
+        bodyHeight: 600,
+        // minBodyHeight: 400,
         rowHeaders: ["rowNum"],
         data: {
           api: {
@@ -44,7 +45,7 @@
           },
         },
         pageOptions: {
-          perPage: 100
+          perPage: 10
         },
         columns: [
           {
@@ -82,7 +83,11 @@
         gridInstance.readData(1);
       }
       function handlePerPageChange(event) {
-        gridInstance.setPerPage(event.target.value);
+        let value = event.target.value;
+        if (isNaN(value)) {
+          return;
+        }
+        gridInstance.setPerPage(parseInt(value));
       }
     </script>
   </body>
