@@ -1,6 +1,6 @@
 /*!
  * TOAST UI Grid
- * @version 4.21.15 | Thu Jul 13 2023
+ * @version 4.21.18 | Fri Oct 27 2023
  * @author NHN Cloud. FE Development Lab
  * @license MIT
  */
@@ -2031,7 +2031,7 @@ exports.asyncInvokeObserver = asyncInvokeObserver;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.changeRawDataToOriginDataForTree = exports.getOmittedInternalProp = exports.createChangeInfo = exports.getFormattedValue = exports.getRowKeyByIndexWithPageRange = exports.getRowIndexPerPage = exports.isClientPagination = exports.isScrollPagination = exports.getMaxRowKey = exports.isFiltered = exports.isSorted = exports.getCreatedRowInfos = exports.getCreatedRowInfo = exports.getRemovedClassName = exports.getAddedClassName = exports.getLoadingState = exports.getRowHeight = exports.isInitialSortState = exports.isSortable = exports.getUniqColumnData = exports.findRowByRowKey = exports.findIndexByRowKey = exports.getConditionalRows = exports.getRemoveRowInfoList = exports.getCheckedRowInfoList = exports.isEditableCell = exports.getCellAddressByIndex = void 0;
+exports.getCheckStateChangedRowkeysInRange = exports.changeRawDataToOriginDataForTree = exports.getOmittedInternalProp = exports.createChangeInfo = exports.getFormattedValue = exports.getRowKeyByIndexWithPageRange = exports.getRowIndexPerPage = exports.isClientPagination = exports.isScrollPagination = exports.getMaxRowKey = exports.isFiltered = exports.isSorted = exports.getCreatedRowInfos = exports.getCreatedRowInfo = exports.getRemovedClassName = exports.getAddedClassName = exports.getLoadingState = exports.getRowHeight = exports.isInitialSortState = exports.isSortable = exports.getUniqColumnData = exports.findRowByRowKey = exports.findIndexByRowKey = exports.getConditionalRows = exports.getRemoveRowInfoList = exports.getCheckedRowInfoList = exports.isEditableCell = exports.getCellAddressByIndex = void 0;
 var tslib_1 = __webpack_require__(1);
 var common_1 = __webpack_require__(0);
 var instance_1 = __webpack_require__(9);
@@ -2330,6 +2330,18 @@ function changeRawDataToOriginDataForTree(rawData) {
         .map(function (row) { return changeRowToOriginRowForTree(row); });
 }
 exports.changeRawDataToOriginDataForTree = changeRawDataToOriginDataForTree;
+function getCheckStateChangedRowkeysInRange(store, checkState, range) {
+    var data = store.data;
+    var filteredRawData = data.filteredRawData;
+    var rowKeys = [];
+    for (var i = range[0]; i < range[1]; i += 1) {
+        if (filteredRawData[i]._attributes.checked !== checkState) {
+            rowKeys.push(getRowKeyByIndexWithPageRange(data, i));
+        }
+    }
+    return rowKeys;
+}
+exports.getCheckStateChangedRowkeysInRange = getCheckStateChangedRowkeysInRange;
 
 
 /***/ }),
@@ -3090,7 +3102,8 @@ function check(store, rowKey) {
     /**
      * Occurs when a checkbox in row header is checked
      * @event Grid#check
-     * @property {number | string} rowKey - rowKey of the checked row
+     * @property {number | string} [rowKey] - rowKey of the checked row(when single check via click)
+     * @property {Array<number | string>} [rowKeys] - rowKeys of the checked rows(when multiple check via shift-click)
      * @property {Grid} instance - Current grid instance
      */
     eventBus.trigger('check', gridEvent);
@@ -3112,17 +3125,18 @@ function uncheck(store, rowKey) {
     /**
      * Occurs when a checkbox in row header is unchecked
      * @event Grid#uncheck
-     * @property {number | string} rowKey - rowKey of the unchecked row
+     * @property {number | string} [rowKey] - rowKey of the unchecked row(when single check via click)
+     * @property {Array<number | string>} [rowKeys] - rowKeys of the unchecked rows(when multiple unchecked via shift-click)
      * @property {Grid} instance - Current grid instance
      */
     eventBus.trigger('uncheck', gridEvent);
 }
 exports.uncheck = uncheck;
 function setCheckboxBetween(store, value, startRowKey, endRowKey) {
-    var data = store.data;
+    var data = store.data, id = store.id;
     var clickedCheckboxRowkey = data.clickedCheckboxRowkey;
     var targetRowKey = endRowKey || clickedCheckboxRowkey;
-    data.clickedCheckboxRowkey = startRowKey;
+    var eventBus = eventBus_1.getEventBus(id);
     if (common_1.isNil(targetRowKey)) {
         if (value) {
             check(store, startRowKey);
@@ -3133,8 +3147,31 @@ function setCheckboxBetween(store, value, startRowKey, endRowKey) {
         return;
     }
     var range = getIndexRangeOfCheckbox(store, startRowKey, targetRowKey);
+    var checkStateChangedRowkeys = data_2.getCheckStateChangedRowkeysInRange(store, value, range);
+    var eventArgs = { rowKey: startRowKey, rowKeys: checkStateChangedRowkeys };
+    var gridEventBefore = new gridEvent_1.default(eventArgs);
+    /**
+     * Occurs before the http request is sent
+     * @event Grid#beforeRequest
+     * @type {module:event/gridEvent}
+     * @property {XMLHttpRequest} xhr - Current XMLHttpRequest instance
+     * @property {Grid} instance - Current grid instance
+     */
+    eventBus.trigger('beforeCheckBetween', gridEventBefore);
+    if (gridEventBefore.isStopped()) {
+        if (value) {
+            check(store, startRowKey);
+        }
+        else {
+            uncheck(store, startRowKey);
+        }
+        return;
+    }
+    data.clickedCheckboxRowkey = startRowKey;
     setRowsAttributeInRange(store, 'checked', value, range);
     setCheckedAllRows(store);
+    var gridEvent = new gridEvent_1.default(eventArgs);
+    eventBus.trigger(value ? 'check' : 'uncheck', gridEvent);
 }
 exports.setCheckboxBetween = setCheckboxBetween;
 function checkAll(store, allPage) {
@@ -4259,6 +4296,7 @@ function keyEventGenerate(ev) {
     var commandInfo = exports.keyStrokeCommandMap[keyStroke];
     return commandInfo
         ? {
+            keyStroke: keyStroke,
             type: commandInfo[0],
             command: commandInfo[1],
         }
@@ -6929,7 +6967,7 @@ function createRelationColumns(relations) {
 exports.createRelationColumns = createRelationColumns;
 // eslint-disable-next-line max-params
 function createColumn(column, columnOptions, relationColumns, gridCopyOptions, treeColumnOptions, columnHeaderInfo, disabled) {
-    var name = column.name, header = column.header, width = column.width, minWidth = column.minWidth, align = column.align, hidden = column.hidden, resizable = column.resizable, editor = column.editor, renderer = column.renderer, relations = column.relations, sortable = column.sortable, sortingType = column.sortingType, copyOptions = column.copyOptions, validation = column.validation, formatter = column.formatter, onBeforeChange = column.onBeforeChange, onAfterChange = column.onAfterChange, whiteSpace = column.whiteSpace, ellipsis = column.ellipsis, valign = column.valign, defaultValue = column.defaultValue, escapeHTML = column.escapeHTML, ignored = column.ignored, filter = column.filter, className = column.className, comparator = column.comparator;
+    var name = column.name, header = column.header, width = column.width, minWidth = column.minWidth, align = column.align, hidden = column.hidden, resizable = column.resizable, editor = column.editor, renderer = column.renderer, relations = column.relations, sortable = column.sortable, sortingType = column.sortingType, copyOptions = column.copyOptions, validation = column.validation, formatter = column.formatter, onBeforeChange = column.onBeforeChange, onAfterChange = column.onAfterChange, whiteSpace = column.whiteSpace, ellipsis = column.ellipsis, valign = column.valign, defaultValue = column.defaultValue, escapeHTML = column.escapeHTML, ignored = column.ignored, filter = column.filter, className = column.className, comparator = column.comparator, customHeader = column.customHeader;
     var editorOptions = createEditorOptions(editor);
     var rendererOptions = createRendererOptions(renderer);
     var filterOptions = filter ? createColumnFilterOption(filter) : null;
@@ -6937,7 +6975,7 @@ function createColumn(column, columnOptions, relationColumns, gridCopyOptions, t
     var useRowSpanOption = column.rowSpan && !treeColumnOptions.name && !common_1.includes(relationColumns, column.name);
     var rowSpan = useRowSpanOption ? column.rowSpan : false;
     return observable_1.observable(tslib_1.__assign(tslib_1.__assign(tslib_1.__assign({ name: name,
-        escapeHTML: escapeHTML, header: header || name, hidden: Boolean(hidden), resizable: common_1.isUndefined(resizable) ? Boolean(columnOptions.resizable) : Boolean(resizable), align: align || 'left', fixedWidth: typeof width === 'number', copyOptions: tslib_1.__assign(tslib_1.__assign({}, gridCopyOptions), copyOptions), baseWidth: (width === 'auto' ? 0 : width) || 0, minWidth: minWidth || columnOptions.minWidth || COLUMN, relationMap: createRelationMap(relations || []), related: common_1.includes(relationColumns, name), sortable: sortable, sortingType: sortingType || 'asc', validation: validation ? tslib_1.__assign({}, validation) : {}, renderer: rendererOptions, formatter: formatter,
+        escapeHTML: escapeHTML, header: header || (customHeader === null || customHeader === void 0 ? void 0 : customHeader.textContent) || name, hidden: Boolean(hidden), resizable: common_1.isUndefined(resizable) ? Boolean(columnOptions.resizable) : Boolean(resizable), align: align || 'left', fixedWidth: typeof width === 'number', copyOptions: tslib_1.__assign(tslib_1.__assign({}, gridCopyOptions), copyOptions), baseWidth: (width === 'auto' ? 0 : width) || 0, minWidth: minWidth || columnOptions.minWidth || COLUMN, relationMap: createRelationMap(relations || []), related: common_1.includes(relationColumns, name), sortable: sortable, sortingType: sortingType || 'asc', validation: validation ? tslib_1.__assign({}, validation) : {}, renderer: rendererOptions, formatter: formatter,
         onBeforeChange: onBeforeChange,
         onAfterChange: onAfterChange,
         whiteSpace: whiteSpace,
@@ -6946,7 +6984,8 @@ function createColumn(column, columnOptions, relationColumns, gridCopyOptions, t
         headerVAlign: headerVAlign, filter: filterOptions, headerRenderer: headerRenderer,
         className: className,
         disabled: disabled,
-        comparator: comparator, autoResizing: width === 'auto', rowSpan: rowSpan }));
+        comparator: comparator, autoResizing: width === 'auto', rowSpan: rowSpan,
+        customHeader: customHeader }));
 }
 exports.createColumn = createColumn;
 function createRowHeader(data, columnHeaderInfo) {
@@ -10336,13 +10375,21 @@ var ColumnHeader = /** @class */ (function (_super) {
     }
     ColumnHeader.prototype.getElement = function (type) {
         var columnInfo = this.props.columnInfo;
-        var name = columnInfo.name, sortable = columnInfo.sortable, sortingType = columnInfo.sortingType, filter = columnInfo.filter, headerRenderer = columnInfo.headerRenderer, header = columnInfo.header;
+        var name = columnInfo.name, sortable = columnInfo.sortable, sortingType = columnInfo.sortingType, filter = columnInfo.filter, headerRenderer = columnInfo.headerRenderer, header = columnInfo.header, customHeader = columnInfo.customHeader;
         if (headerRenderer) {
             return null;
         }
         switch (type) {
-            case 'checkbox':
-                return column_1.isCheckboxColumn(name) ? preact_1.h(headerCheckbox_1.HeaderCheckbox, null) : header;
+            case 'checkbox': {
+                if (column_1.isCheckboxColumn(name)) {
+                    return preact_1.h(headerCheckbox_1.HeaderCheckbox, null);
+                }
+                if (this.el && customHeader) {
+                    this.el.appendChild(customHeader);
+                    return null;
+                }
+                return header;
+            }
             case 'sortingBtn':
                 return sortable && preact_1.h(sortingButton_1.SortingButton, { columnName: name, sortingType: sortingType });
             case 'sortingOrder':
@@ -11829,6 +11876,8 @@ if (false) {}
  *              the text line is broken by fitting to the column's width and new line characters.(This option will be deprecated)
  *          @param {boolean} [options.columns.rowSpan=false] - If set to true, apply dynamic rowspan to column data.
  *              If it is not a top-level relational column of a column relationship or the grid has tree data, dynamic rowspan is not applied.
+ *          @param {HTMLElement} [options.columns.customHeader] - If set HTML element, the element will render in header cell.
+ *              If set without header property, the text content of element will be set to header property.
  *      @param {Object} [options.summary] - The object for configuring summary area.
  *          @param {number} [options.summary.height] - The height of the summary area.
  *          @param {string} [options.summary.position='bottom'] - The position of the summary area. ('bottom', 'top')
@@ -11861,6 +11910,7 @@ if (false) {}
  *      @param {function} [options.onGridBeforeDestroy] - The function that will be called before destroying the grid.
  *      @param {boolean} [options.draggable] - Whether to enable to drag the row for changing the order of rows.
  *      @param {Array} [options.contextMenu] - Option array for the context menu.
+ *      @param {string} [options.moveDirectionOnEnter] - Define moving focus direction on Enter. If not set, the focus does not move.
  */
 var Grid = /** @class */ (function () {
     function Grid(options) {
@@ -13362,7 +13412,7 @@ var lazyObservable_1 = __webpack_require__(28);
 var validation_1 = __webpack_require__(27);
 function createStore(id, options) {
     validation_1.createNewValidationMap(id);
-    var el = options.el, width = options.width, rowHeight = options.rowHeight, bodyHeight = options.bodyHeight, heightResizable = options.heightResizable, minRowHeight = options.minRowHeight, minBodyHeight = options.minBodyHeight, _a = options.columnOptions, columnOptions = _a === void 0 ? {} : _a, keyColumnName = options.keyColumnName, _b = options.rowHeaders, rowHeaders = _b === void 0 ? [] : _b, _c = options.copyOptions, copyOptions = _c === void 0 ? {} : _c, _d = options.summary, summaryOptions = _d === void 0 ? {} : _d, _e = options.selectionUnit, selectionUnit = _e === void 0 ? 'cell' : _e, _f = options.showDummyRows, showDummyRows = _f === void 0 ? false : _f, _g = options.editingEvent, editingEvent = _g === void 0 ? 'dblclick' : _g, _h = options.tabMode, tabMode = _h === void 0 ? 'moveAndEdit' : _h, scrollX = options.scrollX, scrollY = options.scrollY, _j = options.useClientSort, useClientSort = _j === void 0 ? true : _j, _k = options.pageOptions, pageOptions = _k === void 0 ? {} : _k, _l = options.treeColumnOptions, treeColumnOptions = _l === void 0 ? { name: '' } : _l, _m = options.header, header = _m === void 0 ? {} : _m, _o = options.disabled, disabled = _o === void 0 ? false : _o, _p = options.draggable, draggable = _p === void 0 ? false : _p, createMenuGroups = options.contextMenu;
+    var el = options.el, width = options.width, rowHeight = options.rowHeight, bodyHeight = options.bodyHeight, heightResizable = options.heightResizable, minRowHeight = options.minRowHeight, minBodyHeight = options.minBodyHeight, _a = options.columnOptions, columnOptions = _a === void 0 ? {} : _a, keyColumnName = options.keyColumnName, _b = options.rowHeaders, rowHeaders = _b === void 0 ? [] : _b, _c = options.copyOptions, copyOptions = _c === void 0 ? {} : _c, _d = options.summary, summaryOptions = _d === void 0 ? {} : _d, _e = options.selectionUnit, selectionUnit = _e === void 0 ? 'cell' : _e, _f = options.showDummyRows, showDummyRows = _f === void 0 ? false : _f, _g = options.editingEvent, editingEvent = _g === void 0 ? 'dblclick' : _g, _h = options.tabMode, tabMode = _h === void 0 ? 'moveAndEdit' : _h, scrollX = options.scrollX, scrollY = options.scrollY, _j = options.useClientSort, useClientSort = _j === void 0 ? true : _j, _k = options.pageOptions, pageOptions = _k === void 0 ? {} : _k, _l = options.treeColumnOptions, treeColumnOptions = _l === void 0 ? { name: '' } : _l, _m = options.header, header = _m === void 0 ? {} : _m, _o = options.disabled, disabled = _o === void 0 ? false : _o, _p = options.draggable, draggable = _p === void 0 ? false : _p, createMenuGroups = options.contextMenu, moveDirectionOnEnter = options.moveDirectionOnEnter;
     var frozenBorderWidth = columnOptions.frozenBorderWidth;
     var summaryHeight = summaryOptions.height, summaryPosition = summaryOptions.position;
     var _q = header.height, headerHeight = _q === void 0 ? 40 : _q, _r = header.complexColumns, complexColumns = _r === void 0 ? [] : _r, _s = header.align, align = _s === void 0 ? 'center' : _s, _t = header.valign, valign = _t === void 0 ? 'middle' : _t, _u = header.columns, columnHeaders = _u === void 0 ? [] : _u;
@@ -13423,6 +13473,7 @@ function createStore(id, options) {
         editingEvent: editingEvent,
         tabMode: tabMode,
         id: id,
+        moveDirectionOnEnter: moveDirectionOnEnter,
     });
     var summary = summary_1.create({ column: column, data: data, summary: summaryOptions });
     var selection = selection_1.create({
@@ -20199,7 +20250,7 @@ var common_1 = __webpack_require__(0);
 var rowSpan_1 = __webpack_require__(13);
 var data_1 = __webpack_require__(6);
 function create(_a) {
-    var column = _a.column, data = _a.data, dimension = _a.dimension, rowCoords = _a.rowCoords, columnCoords = _a.columnCoords, editingEvent = _a.editingEvent, tabMode = _a.tabMode, id = _a.id;
+    var column = _a.column, data = _a.data, dimension = _a.dimension, rowCoords = _a.rowCoords, columnCoords = _a.columnCoords, editingEvent = _a.editingEvent, tabMode = _a.tabMode, id = _a.id, moveDirectionOnEnter = _a.moveDirectionOnEnter;
     return observable_1.observable({
         rowKey: null,
         columnName: null,
@@ -20210,6 +20261,7 @@ function create(_a) {
         navigating: false,
         forcedDestroyEditing: false,
         tabMode: tabMode,
+        moveDirectionOnEnter: moveDirectionOnEnter,
         get side() {
             if (this.columnName === null) {
                 return null;
@@ -21255,8 +21307,10 @@ var HeaderCheckboxComp = /** @class */ (function (_super) {
 }(preact_1.Component));
 exports.HeaderCheckbox = hoc_1.connect(function (store) {
     var _a = store.data, checkedAllRows = _a.checkedAllRows, disabledAllCheckbox = _a.disabledAllCheckbox, allColumnMap = store.column.allColumnMap;
+    var _b = allColumnMap._checked, header = _b.header, customHeader = _b.customHeader;
     return {
-        header: allColumnMap._checked.header,
+        header: header,
+        customHeader: customHeader,
         checkedAllRows: checkedAllRows,
         disabled: disabledAllCheckbox,
     };
@@ -21950,19 +22004,25 @@ var EditingLayerComp = /** @class */ (function (_super) {
         _this.initBodyScrollPos = { initBodyScrollTop: 0, initBodyScrollLeft: 0 };
         _this.longestTextWidths = {};
         _this.handleKeyDown = function (ev) {
+            var moveDirectionOnEnter = _this.props.moveDirectionOnEnter;
             var keyName = keyboard_1.getKeyStrokeString(ev);
             switch (keyName) {
                 case 'enter':
-                    _this.saveAndFinishEditing(true);
+                    if (common_1.isUndefined(moveDirectionOnEnter)) {
+                        _this.saveAndFinishEditing(true);
+                    }
+                    else {
+                        _this.moveTabAndEnterFocus(ev, moveDirectionOnEnter);
+                    }
                     break;
                 case 'esc':
                     _this.cancelEditing();
                     break;
                 case 'tab':
-                    _this.moveTabFocus(ev, 'nextCell');
+                    _this.moveTabAndEnterFocus(ev, 'nextCell');
                     break;
                 case 'shift-tab':
-                    _this.moveTabFocus(ev, 'prevCell');
+                    _this.moveTabAndEnterFocus(ev, 'prevCell');
                     break;
                 default:
                 // do nothing;
@@ -21979,10 +22039,10 @@ var EditingLayerComp = /** @class */ (function (_super) {
         };
         return _this;
     }
-    EditingLayerComp.prototype.moveTabFocus = function (ev, command) {
+    EditingLayerComp.prototype.moveTabAndEnterFocus = function (ev, command) {
         var dispatch = this.props.dispatch;
         ev.preventDefault();
-        dispatch('moveTabFocus', command);
+        dispatch('moveTabAndEnterFocus', command);
         dispatch('setScrollToFocus');
     };
     EditingLayerComp.prototype.getEditingCellInfo = function () {
@@ -22123,7 +22183,7 @@ exports.EditingLayerComp = EditingLayerComp;
 exports.EditingLayer = hoc_1.connect(function (store, _a) {
     var side = _a.side;
     var data = store.data, column = store.column, id = store.id, focus = store.focus, dimension = store.dimension, viewport = store.viewport, columnCoords = store.columnCoords;
-    var editingAddress = focus.editingAddress, focusSide = focus.side, focusedRowKey = focus.rowKey, focusedColumnName = focus.columnName, forcedDestroyEditing = focus.forcedDestroyEditing, cellPosRect = focus.cellPosRect;
+    var editingAddress = focus.editingAddress, focusSide = focus.side, focusedRowKey = focus.rowKey, focusedColumnName = focus.columnName, forcedDestroyEditing = focus.forcedDestroyEditing, cellPosRect = focus.cellPosRect, moveDirectionOnEnter = focus.moveDirectionOnEnter;
     var scrollTop = viewport.scrollTop, scrollLeft = viewport.scrollLeft;
     var cellBorderWidth = dimension.cellBorderWidth, bodyHeight = dimension.bodyHeight, width = dimension.width, scrollXHeight = dimension.scrollXHeight, scrollYWidth = dimension.scrollYWidth, headerHeight = dimension.headerHeight;
     return {
@@ -22143,6 +22203,7 @@ exports.EditingLayer = hoc_1.connect(function (store, _a) {
         bodyWidth: width - scrollYWidth,
         headerHeight: headerHeight,
         leftSideWidth: side === 'L' ? 0 : columnCoords.areaWidth.L,
+        moveDirectionOnEnter: moveDirectionOnEnter,
     };
 }, true)(EditingLayerComp);
 
@@ -23151,7 +23212,7 @@ var ClipboardComp = /** @class */ (function (_super) {
                 ev.preventDefault();
                 return;
             }
-            var _a = keyboard_1.keyEventGenerate(ev), type = _a.type, command = _a.command;
+            var _a = keyboard_1.keyEventGenerate(ev), keyStroke = _a.keyStroke, type = _a.type, command = _a.command;
             if (!type) {
                 return;
             }
@@ -23160,7 +23221,7 @@ var ClipboardComp = /** @class */ (function (_super) {
                 ev.preventDefault();
             }
             if (!(type === 'clipboard' && command === 'paste')) {
-                var _b = _this.props, rowKey = _b.rowKey, columnName = _b.columnName;
+                var _b = _this.props, rowKey = _b.rowKey, columnName = _b.columnName, moveDirectionOnEnter = _b.moveDirectionOnEnter;
                 var gridEvent = new gridEvent_1.default({ keyboardEvent: ev, rowKey: rowKey, columnName: columnName });
                 /**
                  * Occurs when key down event is triggered.
@@ -23172,7 +23233,12 @@ var ClipboardComp = /** @class */ (function (_super) {
                  */
                 _this.props.eventBus.trigger('keydown', gridEvent);
                 if (!gridEvent.isStopped()) {
-                    _this.dispatchKeyboardEvent(type, command);
+                    var isEditable = keyStroke === 'enter' &&
+                        _this.context.store &&
+                        _this.context.store.column.allColumnMap[columnName !== null && columnName !== void 0 ? columnName : ''].editor;
+                    _this.dispatchKeyboardEvent(type, keyStroke === 'enter' && moveDirectionOnEnter && !isEditable
+                        ? moveDirectionOnEnter
+                        : command);
                 }
             }
         };
@@ -23284,6 +23350,7 @@ exports.Clipboard = hoc_1.connect(function (_a) {
         editing: !!focus.editingAddress,
         filtering: !!filterLayerState.activeColumnAddress,
         eventBus: eventBus_1.getEventBus(id),
+        moveDirectionOnEnter: focus.moveDirectionOnEnter,
     });
 })(ClipboardComp);
 
@@ -23476,7 +23543,7 @@ exports.createDispatcher = createDispatcher;
 "use strict";
 
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.updateDataByKeyMap = exports.paste = exports.removeContent = exports.moveSelection = exports.moveTabFocus = exports.editFocus = exports.moveFocus = void 0;
+exports.updateDataByKeyMap = exports.paste = exports.removeContent = exports.moveSelection = exports.moveTabAndEnterFocus = exports.editFocus = exports.moveFocus = void 0;
 var tslib_1 = __webpack_require__(1);
 var keyboard_1 = __webpack_require__(125);
 var focus_1 = __webpack_require__(18);
@@ -23514,13 +23581,15 @@ function editFocus(store, command) {
     if (command === 'currentCell') {
         focus_1.startEditing(store, rowKey, columnName);
     }
-    else if (command === 'nextCell' || command === 'prevCell') {
-        // move prevCell or nextCell by tab keyMap
-        moveTabFocus(store, command);
+    else if (command === 'nextCell' ||
+        command === 'prevCell' ||
+        command === 'up' ||
+        command === 'down') {
+        moveTabAndEnterFocus(store, command);
     }
 }
 exports.editFocus = editFocus;
-function moveTabFocus(store, command) {
+function moveTabAndEnterFocus(store, command) {
     var focus = store.focus, data = store.data, column = store.column, id = store.id;
     var visibleColumnsWithRowHeader = column.visibleColumnsWithRowHeader;
     var rowKey = focus.rowKey, columnName = focus.columnName, rowIndex = focus.rowIndex, columnIndex = focus.totalColumnIndex;
@@ -23542,7 +23611,7 @@ function moveTabFocus(store, command) {
         }
     }
 }
-exports.moveTabFocus = moveTabFocus;
+exports.moveTabAndEnterFocus = moveTabAndEnterFocus;
 function moveSelection(store, command) {
     var _a;
     var selection = store.selection, focus = store.focus, data = store.data, column = store.column, id = store.id;
