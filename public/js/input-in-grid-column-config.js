@@ -80,14 +80,16 @@ export default [
   {
     header: "Type",
     name: "type",
-    align: 'center',
-    editor: 'text'
+    // align: 'center',
+    editor: 'text',
+    className: 'border-input'
   },
   {
     header: "Release",
     name: "release",
-    align: 'center',
-    editor: 'text'
+    // align: 'center',
+    editor: 'text',
+    className: 'border-input'
   },
   {
     header: "Genre",

@@ -1,0 +1,7 @@
+.tui-grid-cell.tui-grid-cell-has-input.tui-grid-cell-editable.border-input .tui-grid-cell-content
+ {
+  border:1px solid #ddd;
+  height:28px;
+  line-height:19px;
+  margin:5px;
+}

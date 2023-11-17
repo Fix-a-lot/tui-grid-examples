@@ -25,4 +25,14 @@ function readData() {
   gridInstance.readData(1);
 }
 
+(function attachEventHandler() {
+  gridInstance.on('click', ev => {
+    let grid = ev.instance;
+    if (grid.getColumn(ev.columnName)?.editor) {
+      grid.startEditing(ev.rowKey, ev.columnName, false);
+      return;
+    }
+  });
+})();
+
 window.g = gridInstance;
