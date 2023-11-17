@@ -22,12 +22,19 @@ class RadioButtonRenderer extends Renderer {
 
 class CustomTextEditor extends Renderer {
   createElement(props) {
-    const $el = document.createElement('input');
+    const $input = document.createElement('input');
+    this.el = $input;
     const { maxLength } = props.columnInfo.editor.options;
-    $el.type = 'text';
-    $el.maxLength = maxLength;
-    $el.value = String(props.value);
-    this.el = $el;
+    $input.type = 'text';
+    $input.maxLength = maxLength;
+    $input.value = String(props.value);
+    switch (props.value) {
+      case 'Deluxe':
+        $input.disabled = true;
+        break;
+      default:
+        break;
+    }
   }
 
   getValue() {
@@ -81,8 +88,22 @@ export default [
     header: "Type",
     name: "type",
     // align: 'center',
+    className: 'border-input',
+    // editor: {
+    //   type: CustomTextEditor,
+    //   options: {
+    //     maxLength: 10
+    //   }
+    // },
     editor: 'text',
-    className: 'border-input'
+    relations: [
+      { 
+        targetNames: ['release'], 
+        editable({value}) {
+          return value === 'Deluxe'
+        }
+      }
+    ]
   },
   {
     header: "Release",
